@@ -1,0 +1,20 @@
+﻿<Window x:Class="Changeling.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Changeling"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <ListBox ItemsSource="{Binding Path=Files}" Name="DropBox" HorizontalAlignment="Left" Height="215" Margin="10,64,0,0" VerticalAlignment="Top" Width="187" AllowDrop="True" Drop="DropBox_Drop" DragOver="DropBox_DragOver" DragLeave="DropBox_DragLeave" FontFamily="Segoe UI Light"/>
+        <ListBox Name="trackedChanges" HorizontalAlignment="Left" Height="215" Margin="212,64,0,0" VerticalAlignment="Top" Width="168"/>
+        <Button x:Name="btn_addToMonitoredFolders" Content="Add..." HorizontalAlignment="Left" Margin="10,284,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+        <Button x:Name="btn_trackedChangesClear" Content="Clear" HorizontalAlignment="Left" Margin="260,284,0,0" VerticalAlignment="Top" Width="75" Click="btn_trackedChangesClear_Click"/>
+        <Button x:Name="btn_preferences" Content="Settings" HorizontalAlignment="Left" Margin="416,64,0,0" VerticalAlignment="Top" Width="75"/>
+        <Label Content="Monitored Folders" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,33,0,0"/>
+        <Label Content="Tracked Changes" HorizontalAlignment="Left" Margin="212,38,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btn_removeFromMonitoredFolders" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="122,284,0,0" Click="btn_removeFromMonitoredFolders_Click"/>
+
+    </Grid>
+</Window>
