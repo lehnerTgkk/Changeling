@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -132,6 +133,11 @@ namespace Changeling
 
                 }
             }
+        }
+        private void list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //this currently works, in theory, but needs me to fix the FullPath + Changes thing
+            Process.Start(DropBox.SelectedValuePath);
         }
 
         private void btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)

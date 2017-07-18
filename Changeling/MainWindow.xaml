@@ -8,7 +8,7 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <ListBox ItemsSource="{Binding Path=Files}" Name="DropBox" HorizontalAlignment="Left" Height="215" Margin="10,64,0,0" VerticalAlignment="Top" Width="156" AllowDrop="True" Drop="DropBox_Drop" DragOver="DropBox_DragOver" DragLeave="DropBox_DragLeave" FontFamily="Segoe UI Light" KeyDown="list_DelKey" SelectionMode="Extended"/>
-        <ListBox Name="trackedChanges" HorizontalAlignment="Left" Height="215" Margin="171,64,0,0" VerticalAlignment="Top" Width="336"/>
+        <ListBox Name="trackedChanges" HorizontalAlignment="Left" Height="215" Margin="171,64,0,0" VerticalAlignment="Top" Width="336"  MouseDoubleClick="list_MouseDoubleClick"/>
         <Button x:Name="btn_addToMonitoredFolders" Content="Add..." HorizontalAlignment="Left" Margin="10,284,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
         <Button x:Name="btn_trackedChangesClear" Content="Clear" HorizontalAlignment="Left" Margin="432,284,0,0" VerticalAlignment="Top" Width="75" Click="btn_trackedChangesClear_Click"/>
         <Label Content="Monitored Folders" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,38,0,0"/>
