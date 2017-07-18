@@ -57,7 +57,7 @@ namespace Changeling
                     parts.Add(filePath);
                 }
                 string[] AddFolders = parts.ToArray();
-                parts.Fo
+                //parts.Fo
                 _csWatcher.SendFolder(AddFolders, null);
             }
             var listbox = sender as ListBox;
@@ -115,6 +115,22 @@ namespace Changeling
                 DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
                 _files.RemoveAt(selection);
 
+            }
+        }
+        private void list_DelKey (object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Delete)
+            {
+                int selection = DropBox.SelectedIndex;
+                if (selection > 0)
+                {
+                    parts.RemoveAt(selection);
+                    DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
+                    _files.RemoveAt(selection);
+                    Console.WriteLine("Delete Key Pressed");
+                    e.Handled = true;
+
+                }
             }
         }
 
