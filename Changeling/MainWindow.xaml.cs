@@ -89,15 +89,16 @@ namespace Changeling
         {
             string path = content.Path == null ? "" : content.Path;
             string change = content.Change == null ? "" : content.Change;
-            string PathChange = path + " " + change;
-            this.Dispatcher.Invoke(DispatcherPriority.Normal, new insert(AddItemsToList), PathChange);
+           // string PathChange = path + " " + change;
+            this.Dispatcher.Invoke(DispatcherPriority.Normal, new insert(AddItemsToList), path, change);
         }
         
-        public void AddItemsToList(string path)
+        public void AddItemsToList(string path, string change)
         {
             trackedChanges.Items.Add(path);
+            trackedChanges.Items.Add(change);
         }
-        public delegate void insert(string path);
+        public delegate void insert(string path, string change);
         #endregion Changes
 
         private void btn_removeFromMonitoredFolders_Click(object sender, RoutedEventArgs e)
@@ -137,7 +138,7 @@ namespace Changeling
         private void list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             //this currently works, in theory, but needs me to fix the FullPath + Changes thing
-            Process.Start(DropBox.SelectedValuePath);
+            Process.Start((string)trackedChanges.SelectedValue);
         }
 
         private void btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)
