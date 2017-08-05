@@ -1,17 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 //PRobably will need to go use an interface with contracts to make this work
 namespace Changeling
 {
     public class Cswatcher : ICswatcher
     {
         List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
-        public void SendFolder(string[] AddFolders, string[] DeleteFolders)
-        {
-           // DbConn.database_create();
-            Run(AddFolders, DeleteFolders);
-        }
         DisplayFillerDelegate _displayFillerDelegate = null;
 
         public Cswatcher(DisplayFillerDelegate dfd)
@@ -31,35 +27,40 @@ namespace Changeling
             }
         }
 
-        public void Run(string[] AddFolders, string[] DeleteFolders)
+        public void SendFolder(string[] AddFolders, string[] DeleteFolders)
         {
-            if (DeleteFolders == null)
-            {
                 Console.WriteLine("Länge des Arrays in der relevanten Methode" + AddFolders.Length);
-                for (int i = 0; i < AddFolders.Length; i++)
-                {       
-                    if (DeleteFolders == null)
-                    {
-                        FileSystemWatcher watcher = new FileSystemWatcher();
-                        Console.WriteLine("Created this number of monitors" + i);
-                        watcher.Path = AddFolders[i];
-                        Console.WriteLine("Folder that was added to watchlist: " + AddFolders[i]);
-                        watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.FileName | NotifyFilters.DirectoryName;
-                        watcher.Renamed += new RenamedEventHandler(OnRenamed);
-                        watcher.Deleted += new FileSystemEventHandler(OnChanged);
-                        //watcher.Changed += new FileSystemEventHandler(OnChanged);
-                        watcher.Created += new FileSystemEventHandler(OnChanged);
-                        watcher.EnableRaisingEvents = true;
-                    }
-
-                    //else
-                    //{
-                       // watcher.Dispose();
-                    //}
+            for (int i = 0; i < AddFolders.Length; i++)
+            {       
+                watchers.Add(new FileSystemWatcher(AddFolders[i]));
+                //Console.WriteLine("Created this number of monitors" + i);
+                //.Path = AddFolders[i];
+                Console.WriteLine("Folder that was added to watchlist: " + AddFolders[i]);
+                //watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                //watcher.Renamed += new RenamedEventHandler(OnRenamed);
+                //watcher.Deleted += new FileSystemEventHandler(OnChanged);
+                //watcher.Created += new FileSystemEventHandler(OnChanged);
+                //watcher.EnableRaisingEvents = true;
+                //watcher.
                 }
+                Console.WriteLine("Number of active watchers: " + watchers.Count);
                 DbConn.database_watchList_fill(AddFolders);
+            foreach (FileSystemWatcher element in watchers)
+            {
+                element.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.CreationTime | NotifyFilters.FileName | NotifyFilters.DirectoryName;
+                element.Renamed += new RenamedEventHandler(OnRenamed);
+                element.Deleted += new FileSystemEventHandler(OnChanged);
+                element.Created += new FileSystemEventHandler(OnChanged);
+                element.EnableRaisingEvents = true;
             }
+
         }
+            public void RemoveFolder(int RemoveFolders)
+            {
+            FileSystemWatcher element = watchers.ElementAt(RemoveFolders);
+            element.EnableRaisingEvents = false;
+            Console.WriteLine("Watcher removed at " + RemoveFolders); 
+            }
         private void OnChanged(object source, FileSystemEventArgs e)
         {
            WatcherChangeTypes wct = e.ChangeType;

@@ -103,42 +103,36 @@ namespace Changeling
 
         private void btn_removeFromMonitoredFolders_Click(object sender, RoutedEventArgs e)
         {
-            // foreach (string items in DropBox.SelectedItems)
-            // {
-            //     _files.Remove(items);
-            //     parts.Remove(items);
-            //     DbConn.database_watchlist_remove_folders(items);
-            // }
-            // Console.WriteLine("Index of selected items: " + DropBox.SelectedIndex);
             int selection = DropBox.SelectedIndex;
-            if (selection > 0)
-            {
-                parts.RemoveAt(selection);
-                DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
-                _files.RemoveAt(selection);
-
-            }
+            parts.RemoveAt(selection);
+            DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
+            _files.RemoveAt(selection);
+            _csWatcher.RemoveFolder(selection);
         }
         private void list_DelKey (object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Delete)
             {
                 int selection = DropBox.SelectedIndex;
-                if (selection > 0)
-                {
-                    parts.RemoveAt(selection);
-                    DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
-                    _files.RemoveAt(selection);
-                    Console.WriteLine("Delete Key Pressed");
-                    e.Handled = true;
-
-                }
+                parts.RemoveAt(selection);
+                DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
+                _files.RemoveAt(selection);
+                e.Handled = true;
+                _csWatcher.RemoveFolder(selection);
             }
         }
         private void list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             //this currently works, in theory, but needs me to fix the FullPath + Changes thing
-            Process.Start((string)trackedChanges.SelectedValue);
+            try
+            {
+                Process.Start((string)trackedChanges.SelectedValue);
+                Console.WriteLine("Selected Value " + trackedChanges.SelectedValue);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message); 
+            }
         }
 
         private void btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)

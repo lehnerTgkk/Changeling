@@ -13,7 +13,7 @@ namespace Changeling
         {
         }
 
-        private void smtp_mailer(string address, string password)
+        public void smtp_mailer(string address, string password)
         {
             try
             {
