@@ -145,6 +145,23 @@ namespace Changeling
             }
             sqlite.Close();
         }
+        // public static void database_notification(string email)
+        //  {
+        //  SQLiteConnection sqlite;
+        //  sqlite = new SQLiteConnection("Data Source=db.sqlite");
+        //  sqlite.Open();
+        // SQLiteCommand remove_folder = new SQLiteCommand("INSERT INTO email (email) VALUES (@email)", sqlite);
+        // insertSQL_email.Parameters.Add(new SQLiteParameter("@email", email));
+        //     try
+        //     {
+        //  insertSQL_email.ExecuteNonQuery();
+        // }
+        //     catch (Exception ex)
+        //    {
+        //         throw new Exception(ex.Message);
+        //   }
+        //   sqlite.Close();
+        //   }
 
     }
 

@@ -73,6 +73,7 @@
     <Compile Include="Cswatcher.cs" />
     <Compile Include="DbConn.cs" />
     <Compile Include="ICswatcher.cs" />
+    <Compile Include="mailer.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
