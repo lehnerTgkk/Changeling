@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 //PRobably will need to go use an interface with contracts to make this work
 namespace Changeling
 {
     public class Cswatcher : ICswatcher
     {
+        List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         public void SendFolder(string[] AddFolders, string[] DeleteFolders)
         {
            // DbConn.database_create();
