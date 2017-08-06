@@ -7,6 +7,7 @@ namespace Changeling
 {
     public class Cswatcher : ICswatcher
     {
+        private mailer _mailer;
         List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         DisplayFillerDelegate _displayFillerDelegate = null;
 
@@ -55,19 +56,18 @@ namespace Changeling
             }
 
         }
-            public void RemoveFolder(int RemoveFolders)
-            {
+        public void RemoveFolder(int RemoveFolders)
+        {
             FileSystemWatcher element = watchers.ElementAt(RemoveFolders);
             element.EnableRaisingEvents = false;
-            Console.WriteLine("Watcher removed at " + RemoveFolders); 
-            }
+            Console.WriteLine("Watcher removed at " + RemoveFolders);
+        }
         private void OnChanged(object source, FileSystemEventArgs e)
         {
            WatcherChangeTypes wct = e.ChangeType;
             string change = wct.ToString();
             SendContent(e.FullPath, change);
             DbConn.database_watchList_changes(e.FullPath, change);
-
         }
         private void OnRenamed(object source, RenamedEventArgs e)
         {

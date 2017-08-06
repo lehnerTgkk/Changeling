@@ -26,12 +26,14 @@ namespace Changeling
     {
         
         private Cswatcher _csWatcher;
+        private mailer _mailer;
         public MainWindow()
         {
             DbConn.database_create();
             InitializeComponent();
             this.DataContext = this;
             _csWatcher = new Cswatcher(this.DisplayFiller);
+            _mailer = new mailer();
         }
 
         #region Drag and Drop
@@ -138,6 +140,11 @@ namespace Changeling
         private void btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)
         {
             trackedChanges.Items.Clear();
+        }
+
+        private void EmailActivateButton_Click(object sender, RoutedEventArgs e)
+        {
+            _mailer.smtp_mailer(EmailTextBox.Text, EmailPasswordBox.Password);
         }
     }
 }
