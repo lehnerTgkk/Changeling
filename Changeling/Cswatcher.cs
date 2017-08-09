@@ -7,7 +7,6 @@ namespace Changeling
 {
     public class Cswatcher : ICswatcher
     {
-        private mailer _mailer;
         List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
         DisplayFillerDelegate _displayFillerDelegate = null;
 
@@ -27,7 +26,7 @@ namespace Changeling
                 _displayFillerDelegate(content);
             }
         }
-
+        //ISSUE: I should remove the DeleteFolders string array, since it is no longer needed. The problem with removing the filewatchers can be traced back to the fact that here i give an array, so everytime that array is posted, the number of file watchers grow.
         public void SendFolder(string[] AddFolders, string[] DeleteFolders)
         {
                 Console.WriteLine("Länge des Arrays in der relevanten Methode" + AddFolders.Length);

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace Changeling
 {
-    class mailer
+    class Mailer
     {
-      public mailer()
+      public Mailer()
        {
        }
-        public void smtp_mailer(string address, string password)
+        public void Smtp_mailer(string address, string password)
         {
             try
             {

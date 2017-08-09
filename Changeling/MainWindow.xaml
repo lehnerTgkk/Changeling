@@ -5,30 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Changeling"
         mc:Ignorable="d"
-        Title="ChangeLing" Height="350" Width="525" Topmost="True">
-    <Grid>
+        Title="ChangeLing" Height="400" Width="600" Topmost="True">
+    <Grid Margin="0,0,2,9">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="59*"/>
             <ColumnDefinition Width="458*"/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding Path=Files}" Name="DropBox" HorizontalAlignment="Left" Height="219" Margin="10,41,0,0" VerticalAlignment="Top" Width="108" AllowDrop="True" Drop="DropBox_Drop" DragOver="DropBox_DragOver" DragLeave="DropBox_DragLeave" FontFamily="Segoe UI Light" KeyDown="list_DelKey" SelectionMode="Extended" Grid.ColumnSpan="2">
+        <Canvas HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="277" Margin="227,10,0,0" Background="#FFFFDDC0" Grid.Column="1">
+            <Label Content="Enter an email address you own and your &#xD;&#xA;password to activate email alerts on changes" Canvas.Left="10" Canvas.Top="41" Width="266"/>
+            <Label Content="Add the number of changes that should be&#xD;&#xA;stored before an email is sent out.&#xD;&#xA;&quot;0&quot; will send an email on every change.&#xA;" Canvas.Left="10" Canvas.Top="178" Width="266" Height="59"/>
+            <Label Content="Email Notifications" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="167" FontWeight="Bold" HorizontalAlignment="Left" Canvas.Left="10" Canvas.Top="10"/>
+            <Label Content="Frequency" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.493,1.885" FontWeight="Bold" Canvas.Left="10" Canvas.Top="147"/>
+            <PasswordBox x:Name="EmailPasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" Height="23" Password="Password" Grid.Column="1" Canvas.Left="10" Canvas.Top="119"/>
+            <TextBox x:Name="EmailTextBox" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="139" Grid.Column="1" AutomationProperties.HelpText="mock@test.com" Canvas.Left="10" Canvas.Top="88"/>
+            <Button x:Name="EmailActivateButton" Content="Activate" Grid.Column="1" VerticalAlignment="Top" Width="75" Click="EmailActivateButton_Click" Canvas.Left="10" Canvas.Top="274" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Height="20"/>
+            <TextBox x:Name="ChangesToStoreTextBox" Height="23" TextWrapping="Wrap" Text="1" Width="139" Canvas.Left="10" Canvas.Top="246" PreviewTextInput="NumberValidationTextBox" PreviewKeyDown="NumberValidationTextBox_spacehandler"/>
 
-        </ListBox>
-        <ListBox Name="trackedChanges" HorizontalAlignment="Left" Height="219" Margin="64,41,0,0" VerticalAlignment="Top" Width="153"  MouseDoubleClick="list_MouseDoubleClick" Grid.Column="1"/>
-        <Button x:Name="btn_addToMonitoredFolders" Content="Add..." HorizontalAlignment="Left" Margin="11,265,0,0" VerticalAlignment="Top" Width="75" IsDefault="True" Grid.ColumnSpan="2" Height="20" RenderTransformOrigin="0.533,1.35"/>
-        <Button x:Name="btn_trackedChangesClear" Content="Clear" HorizontalAlignment="Left" Margin="142,265,0,0" VerticalAlignment="Top" Width="75" Click="btn_trackedChangesClear_Click" Grid.Column="1" Height="20"/>
-        <Label Content="Monitored Folders" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Grid.ColumnSpan="2" Height="26" Width="108" FontWeight="Bold"/>
-        <Label Content="Tracked Changes" HorizontalAlignment="Left" Margin="64,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="153" FontWeight="Bold"/>
-        <Button x:Name="btn_removeFromMonitoredFolders" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="11,290,0,0" Click="btn_removeFromMonitoredFolders_Click" RenderTransformOrigin="0.156,0.5" Height="20" Grid.ColumnSpan="2"/>
-        <PasswordBox x:Name="EmailPasswordBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="298,107,0,0" Width="139" Height="23" Password="Password" Grid.Column="1"/>
-        <TextBox x:Name="EmailTextBox" HorizontalAlignment="Left" Height="26" TextWrapping="Wrap" VerticalAlignment="Top" Width="139" Margin="298,79,0,0" Grid.Column="1" AutomationProperties.HelpText="mock@test.com"/>
-        <Button x:Name="EmailActivateButton" Content="Activate" Grid.Column="1" HorizontalAlignment="Left" Margin="281,240,0,0" VerticalAlignment="Top" Width="75" Click="EmailActivateButton_Click"/>
-        <Slider x:Name="NotificationFrequencySlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="139" Margin="227,162,0,0" TickPlacement="BottomRight" SmallChange="1" Minimum="1" Grid.Column="1"/>
-        <Label Content="Notification Settings" HorizontalAlignment="Left" Margin="222,10,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="167" FontWeight="Bold"/>
-        <Label Content="Email" Grid.Column="1" HorizontalAlignment="Left" Margin="226,80,0,0" VerticalAlignment="Top" Width="71"/>
-        <Label Content="Password" Grid.Column="1" HorizontalAlignment="Left" Margin="227,106,0,0" VerticalAlignment="Top" Width="71"/>
-        <Label Content="Frequency" Grid.Column="1" HorizontalAlignment="Left" Margin="227,130,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.493,1.885"/>
-        <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        </Canvas>
+
+        <Canvas Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="340" VerticalAlignment="Top" Width="265" Margin="10,10,0,0" Background="#FFFFDDC0">
+            <ListBox ItemsSource="{Binding Files}" x:Name="DropBox" HorizontalAlignment="Left" Height="228" VerticalAlignment="Top" Width="108" AllowDrop="True" Drop="DropBox_Drop" DragOver="DropBox_DragOver" DragLeave="DropBox_DragLeave" FontFamily="Segoe UI Light" KeyDown="List_DelKey" SelectionMode="Extended" Grid.ColumnSpan="2" Canvas.Left="10" Canvas.Top="41"/>
+            <ListBox x:Name="TrackedChanges" HorizontalAlignment="Right" Height="228" VerticalAlignment="Top" Width="130"  MouseDoubleClick="List_MouseDoubleClick" Grid.Column="1" Canvas.Left="123" Canvas.Top="41"/>
+            <Button x:Name="Btn_addToMonitoredFolders" Content="Add..." HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" IsDefault="True" Grid.ColumnSpan="2" Height="20" RenderTransformOrigin="0.533,1.35" Canvas.Left="10" Canvas.Top="274"/>
+            <Button x:Name="Btn_trackedChangesClear" Content="Clear" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Btn_trackedChangesClear_Click" Grid.Column="1" Height="20" Canvas.Left="178" Canvas.Top="274"/>
+            <Label Content="Monitored Folders" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="26" Width="108" FontWeight="Bold" Canvas.Left="10" Canvas.Top="10"/>
+            <Label Content="Tracked Changes" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="106" FontWeight="Bold" Canvas.Left="123" Canvas.Top="10"/>
+            <Button x:Name="Btn_removeFromMonitoredFolders" Content="Remove" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Btn_removeFromMonitoredFolders_Click" RenderTransformOrigin="0.156,0.5" Height="20" Grid.ColumnSpan="2" Canvas.Left="10" Canvas.Top="299"/>
+
+        </Canvas>
+
+
 
     </Grid>
 </Window>

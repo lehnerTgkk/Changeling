@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,14 +27,14 @@ namespace Changeling
     {
         
         private Cswatcher _csWatcher;
-        private mailer _mailer;
+        private Mailer _mailer;
         public MainWindow()
         {
             DbConn.database_create();
             InitializeComponent();
             this.DataContext = this;
             _csWatcher = new Cswatcher(this.DisplayFiller);
-            _mailer = new mailer();
+            _mailer = new Mailer();
         }
 
         #region Drag and Drop
@@ -58,6 +59,7 @@ namespace Changeling
                     var fileName = System.IO.Path.GetFileName(filePath);
                     _files.Add(fileName);
                     parts.Add(filePath);
+                    //_csWatcher.SendFolder(filePath, null);
                 }
                 string[] AddFolders = parts.ToArray();
                 //parts.Fo
@@ -97,21 +99,27 @@ namespace Changeling
         
         public void AddItemsToList(string path, string change)
         {
-            trackedChanges.Items.Add(path);
-            trackedChanges.Items.Add(change);
+            TrackedChanges.Items.Add(path);
+            TrackedChanges.Items.Add(change);
         }
         public delegate void insert(string path, string change);
         #endregion Changes
 
-        private void btn_removeFromMonitoredFolders_Click(object sender, RoutedEventArgs e)
+        private void Btn_removeFromMonitoredFolders_Click(object sender, RoutedEventArgs e)
         {
             int selection = DropBox.SelectedIndex;
-            parts.RemoveAt(selection);
-            DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
-            _files.RemoveAt(selection);
-            _csWatcher.RemoveFolder(selection);
+            //ISSUE: here i need to check whether the selection is smaller as null, as clicking on remove on an empty list creates an exception
+            if (selection != 0)
+            {
+                parts.RemoveAt(selection);
+                Console.WriteLine("Got order to delete folder at Index: " + selection);
+                DbConn.database_watchlist_remove_folders(_files.ElementAt(selection));
+                _files.RemoveAt(selection);
+                _csWatcher.RemoveFolder(selection);
+            }
+            
         }
-        private void list_DelKey (object sender, KeyEventArgs e)
+        private void List_DelKey (object sender, KeyEventArgs e)
         {
             if(e.Key == Key.Delete)
             {
@@ -123,13 +131,13 @@ namespace Changeling
                 _csWatcher.RemoveFolder(selection);
             }
         }
-        private void list_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void List_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             //this currently works, in theory, but needs me to fix the FullPath + Changes thing
             try
             {
-                Process.Start((string)trackedChanges.SelectedValue);
-                Console.WriteLine("Selected Value " + trackedChanges.SelectedValue);
+                Process.Start((string)TrackedChanges.SelectedValue);
+                Console.WriteLine("Selected Value " + TrackedChanges.SelectedValue);
             }
             catch(Exception ex)
             {
@@ -137,14 +145,25 @@ namespace Changeling
             }
         }
 
-        private void btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)
+        private void Btn_trackedChangesClear_Click(object sender, RoutedEventArgs e)
         {
-            trackedChanges.Items.Clear();
+            TrackedChanges.Items.Clear();
         }
 
         private void EmailActivateButton_Click(object sender, RoutedEventArgs e)
         {
-            _mailer.smtp_mailer(EmailTextBox.Text, EmailPasswordBox.Password);
+            _mailer.Smtp_mailer(EmailTextBox.Text, EmailPasswordBox.Password);
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+        private void NumberValidationTextBox_spacehandler(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+                e.Handled = true;
         }
     }
 }
